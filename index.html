@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RascaYa V8 - Raspaditas Online Gratis</title>
+  <title>RascaYa V9 - Ganá Plata Real</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -16,8 +16,17 @@
       color: #fff;
       min-height: 100vh;
     }
-    h1 { margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-    p { margin-top: 0; margin-bottom: 20px; }
+    h1 { margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+  .saldo-box {
+      background: #fff;
+      color: #764ba2;
+      padding: 15px 30px;
+      border-radius: 15px;
+      font-size: 24px;
+      font-weight: bold;
+      margin: 15px 0;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
     #scratchCard {
       position: relative;
       width: 300px;
@@ -46,48 +55,76 @@
       cursor: crosshair;
       touch-action: none;
     }
-    #scratchButton {
-      margin-top: 25px;
+    button {
+      margin-top: 15px;
       padding: 15px 40px;
       font-size: 18px;
       font-weight: bold;
       color: #fff;
-      background: #ff4757;
       border: none;
       border-radius: 50px;
       cursor: pointer;
-      box-shadow: 0 5px 15px rgba(255,71,87,0.4);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
       transition: transform 0.2s;
+      width: 300px;
     }
-    #scratchButton:active { transform: scale(0.95); }
+    button:active { transform: scale(0.95); }
+    #scratchButton { background: #ff4757; }
+    #withdrawBtn { background: #2ed573; display: none; }
+    #withdrawBtn:disabled { background: #aaa; cursor: not-allowed; }
+    small { margin-top: 10px; opacity: 0.8; }
   </style>
 </head>
 <body>
-  <h1>🎰 RascaYa V8 🎰</h1>
-  <p>¡Raspá y ganá premios!</p>
+  <h1>🎰 RascaYa V9 🎰</h1>
+  <p>Cada raspada = $50</p>
+
+  <div class="saldo-box">Saldo: $<span id="saldo">0</span></div>
 
   <div id="scratchCard">
-    <div id="prize">$5000</div>
+    <div id="prize">+$50</div>
     <canvas id="canvas" width="300" height="200"></canvas>
   </div>
 
-  <button id="scratchButton">RASCAR</button>
+  <button id="scratchButton">RASCAR +$50</button>
+  <button id="withdrawBtn" onclick="retirar()">RETIRAR $500 POR WHATSAPP</button>
+
+  <small>Mínimo de retiro: $500</small>
 
   <script>
+    // Lógica Saldo
+    let saldo = parseInt(localStorage.getItem('saldo') || '0');
+    const saldoSpan = document.getElementById('saldo');
+    const withdrawBtn = document.getElementById('withdrawBtn');
+    const WHATSAPP_NUMERO = '5492983389710'; // <-- TU WHATSAPP
+
+    function actualizarSaldo() {
+      saldoSpan.textContent = saldo;
+      localStorage.setItem('saldo', saldo);
+      if (saldo >= 500) {
+        withdrawBtn.style.display = 'block';
+      }
+    }
+    actualizarSaldo();
+
     // Lógica del raspado
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
+    let raspado = false;
 
-    // Fondo gris para raspar
-    ctx.fillStyle = '#c0c0c0';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = '#888';
-    ctx.font = 'bold 24px Arial';
-    ctx.textAlign = 'center';
-    ctx.fillText('RASPA AQUÍ', 150, 100);
-
-    ctx.globalCompositeOperation = 'destination-out';
+    function resetCanvas() {
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.fillStyle = '#c0c0c0';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = '#888';
+      ctx.font = 'bold 24px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText('RASPA AQUÍ', 150, 100);
+      ctx.globalCompositeOperation = 'destination-out';
+      raspado = false;
+    }
+    resetCanvas();
 
     function getPos(e) {
       const rect = canvas.getBoundingClientRect();
@@ -97,11 +134,24 @@
     }
 
     function scratch(e) {
-      if (!isDrawing) return;
+      if (!isDrawing || raspado) return;
       const pos = getPos(e);
       ctx.beginPath();
       ctx.arc(pos.x, pos.y, 20, 0, Math.PI * 2);
       ctx.fill();
+
+      // Si raspó más del 50% damos los $50 1 sola vez
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      let transparent = 0;
+      for (let i = 3; i < imageData.data.length; i += 4) {
+        if (imageData.data[i] === 0) transparent++;
+      }
+      if (transparent > (canvas.width * canvas.height) / 2 &&!raspado) {
+        raspado = true;
+        saldo += 50;
+        actualizarSaldo();
+        setTimeout(resetCanvas, 800);
+      }
     }
 
     canvas.addEventListener('mousedown', () => isDrawing = true);
@@ -112,19 +162,22 @@
     canvas.addEventListener('touchmove', scratch);
 
     document.getElementById('scratchButton').addEventListener('click', () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if(!raspado) resetCanvas(); // Reset si no raspó nada
     });
+
+    // Función Retiro WhatsApp
+    function retirar() {
+      const mensaje = `Hola! Quiero retirar $500 de RascaYa. Mi saldo actual es: $${saldo}`;
+      const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, '_blank');
+    }
   </script>
 
   <!-- === ADS TERRA CÓDIGOS - NO TOCAR === -->
-  <!-- Popunder -->
   <script type='text/javascript' src='https://pl30177520.effectivecpmnetwork.com/ae/77/e5/ae77e5f080a85cc8c64e8078e147b5f8.js'></script>
-
   <script>
-    // Direct Link al tocar RASCAR
     const btnRascar = document.getElementById('scratchButton');
     const directLink = 'https://www.effectivecpmnetwork.com/fxczk31aq?key=7d8070488594088b20dd155bec2127e6';
-
     btnRascar.addEventListener('click', function() {
       window.open(directLink, '_blank');
     }, { once: false });

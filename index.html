@@ -1,17 +1,135 @@
 <!DOCTYPE html>
-<html lang="es-AR">
+<html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="monetag" content="cf89a74b7c3c298cd1302744700289ba">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RascaYa v8</title>
-<style>body{background:#0f172a;color:#fff;display:flex;justify-content:center;align-items:center;height:100vh;font-family:Arial}h1{color:#fbbf24}</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RascaYa V8 - Raspaditas Online Gratis</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #fff;
+      min-height: 100vh;
+    }
+    h1 { margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+    p { margin-top: 0; margin-bottom: 20px; }
+    #scratchCard {
+      position: relative;
+      width: 300px;
+      height: 200px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    #prize {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: bold;
+      color: #764ba2;
+      background: #ffd700;
+    }
+    #canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      cursor: crosshair;
+      touch-action: none;
+    }
+    #scratchButton {
+      margin-top: 25px;
+      padding: 15px 40px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #fff;
+      background: #ff4757;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(255,71,87,0.4);
+      transition: transform 0.2s;
+    }
+    #scratchButton:active { transform: scale(0.95); }
+  </style>
 </head>
 <body>
-  <h1>🎁 RascaYa v8 OK</h1>
+  <h1>🎰 RascaYa V8 🎰</h1>
+  <p>¡Raspá y ganá premios!</p>
 
-<!-- MONETAG ZONE 11231361 -->
-<script src="//libtl.com/sl.js?z=11231361" data-cfasync="false"></script>
+  <div id="scratchCard">
+    <div id="prize">$5000</div>
+    <canvas id="canvas" width="300" height="200"></canvas>
+  </div>
+
+  <button id="scratchButton">RASCAR</button>
+
+  <script>
+    // Lógica del raspado
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+
+    // Fondo gris para raspar
+    ctx.fillStyle = '#c0c0c0';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#888';
+    ctx.font = 'bold 24px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('RASPA AQUÍ', 150, 100);
+
+    ctx.globalCompositeOperation = 'destination-out';
+
+    function getPos(e) {
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.touches? e.touches[0].clientX : e.clientX) - rect.left;
+      const y = (e.touches? e.touches[0].clientY : e.clientY) - rect.top;
+      return {x, y};
+    }
+
+    function scratch(e) {
+      if (!isDrawing) return;
+      const pos = getPos(e);
+      ctx.beginPath();
+      ctx.arc(pos.x, pos.y, 20, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    canvas.addEventListener('mousedown', () => isDrawing = true);
+    canvas.addEventListener('mouseup', () => isDrawing = false);
+    canvas.addEventListener('mousemove', scratch);
+    canvas.addEventListener('touchstart', () => isDrawing = true);
+    canvas.addEventListener('touchend', () => isDrawing = false);
+    canvas.addEventListener('touchmove', scratch);
+
+    document.getElementById('scratchButton').addEventListener('click', () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+  </script>
+
+  <!-- === ADS TERRA CÓDIGOS - NO TOCAR === -->
+  <!-- Popunder -->
+  <script type='text/javascript' src='https://pl30177520.effectivecpmnetwork.com/ae/77/e5/ae77e5f080a85cc8c64e8078e147b5f8.js'></script>
+
+  <script>
+    // Direct Link al tocar RASCAR
+    const btnRascar = document.getElementById('scratchButton');
+    const directLink = 'https://www.effectivecpmnetwork.com/fxczk31aq?key=7d8070488594088b20dd155bec2127e6';
+
+    btnRascar.addEventListener('click', function() {
+      window.open(directLink, '_blank');
+    }, { once: false });
+  </script>
+  <!-- === FIN ADS TERRA === -->
 
 </body>
 </html>

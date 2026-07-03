@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RascaYa V9 - Ganá Plata Real</title>
+  <title>RascaYaPRO V9.1 - Ganá Plata Real</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -17,7 +17,7 @@
       min-height: 100vh;
     }
     h1 { margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-  .saldo-box {
+ .saldo-box {
       background: #fff;
       color: #764ba2;
       padding: 15px 30px;
@@ -76,7 +76,7 @@
   </style>
 </head>
 <body>
-  <h1>🎰 RascaYa V9 🎰</h1>
+  <h1>🎰 RascaYaPRO V9.1 🎰</h1>
   <p>Cada raspada = $50</p>
 
   <div class="saldo-box">Saldo: $<span id="saldo">0</span></div>
@@ -92,11 +92,11 @@
   <small>Mínimo de retiro: $500</small>
 
   <script>
-    // Lógica Saldo
+    // Lógica Saldo v9.1
     let saldo = parseInt(localStorage.getItem('saldo') || '0');
     const saldoSpan = document.getElementById('saldo');
     const withdrawBtn = document.getElementById('withdrawBtn');
-    const WHATSAPP_NUMERO = '5492983389710'; // <-- TU WHATSAPP
+    const WHATSAPP_NUMERO = '5492983389710'; // <-- TU WHATSAPP 2983 389710
 
     function actualizarSaldo() {
       saldoSpan.textContent = saldo;
@@ -140,7 +140,6 @@
       ctx.arc(pos.x, pos.y, 20, 0, Math.PI * 2);
       ctx.fill();
 
-      // Si raspó más del 50% damos los $50 1 sola vez
       const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
       let transparent = 0;
       for (let i = 3; i < imageData.data.length; i += 4) {
@@ -162,18 +161,18 @@
     canvas.addEventListener('touchmove', scratch);
 
     document.getElementById('scratchButton').addEventListener('click', () => {
-      if(!raspado) resetCanvas(); // Reset si no raspó nada
+      if(!raspado) resetCanvas();
     });
 
-    // Función Retiro WhatsApp
+    // Función Retiro WhatsApp v9.1
     function retirar() {
-      const mensaje = `Hola! Quiero retirar $500 de RascaYa. Mi saldo actual es: $${saldo}`;
+      const mensaje = `Hola! Quiero retirar $500 de RascaYaPRO. Mi saldo actual es: $${saldo}`;
       const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensaje)}`;
       window.open(url, '_blank');
     }
   </script>
 
-  <!-- === ADS TERRA CÓDIGOS - NO TOCAR === -->
+  <!-- === ADS TERRA CÓDIGOS V9.1 === -->
   <script type='text/javascript' src='https://pl30177520.effectivecpmnetwork.com/ae/77/e5/ae77e5f080a85cc8c64e8078e147b5f8.js'></script>
   <script>
     const btnRascar = document.getElementById('scratchButton');

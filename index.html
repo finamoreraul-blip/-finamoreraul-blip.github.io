@@ -1,187 +1,279 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RascaYaPRO V9.1 - Ganá Plata Real</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      margin: 0;
-      padding: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #fff;
-      min-height: 100vh;
-    }
-    h1 { margin-bottom: 5px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
- .saldo-box {
-      background: #fff;
-      color: #764ba2;
-      padding: 15px 30px;
-      border-radius: 15px;
-      font-size: 24px;
-      font-weight: bold;
-      margin: 15px 0;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-    #scratchCard {
-      position: relative;
-      width: 300px;
-      height: 200px;
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-      overflow: hidden;
-    }
-    #prize {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
-      font-weight: bold;
-      color: #764ba2;
-      background: #ffd700;
-    }
-    #canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      cursor: crosshair;
-      touch-action: none;
-    }
-    button {
-      margin-top: 15px;
-      padding: 15px 40px;
-      font-size: 18px;
-      font-weight: bold;
-      color: #fff;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      transition: transform 0.2s;
-      width: 300px;
-    }
-    button:active { transform: scale(0.95); }
-    #scratchButton { background: #ff4757; }
-    #withdrawBtn { background: #2ed573; display: none; }
-    #withdrawBtn:disabled { background: #aaa; cursor: not-allowed; }
-    small { margin-top: 10px; opacity: 0.8; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Catálogo - Mi Emprendimiento</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
+:root{--rosa:#ff4d94;--rosa-osc:#d6246a;--fondo:#0f0f10;--card:#1c1c1e;--borde:#2a2a2e;--texto:#f5f5f5;--texto2:#a0a0a0}
+body{background:var(--fondo);color:var(--texto)}
+header{background:linear-gradient(135deg,#1a1a1d,#2b0a18);border-bottom:2px solid var(--rosa);color:white;padding:18px 20px;text-align:center;position:sticky;top:0;z-index:50}
+header h1{font-size:1.5rem;color:var(--rosa)}
+header p{opacity:.8;font-size:.9rem}
+
+.carrusel{max-width:900px;margin:20px auto;border-radius:18px;overflow:hidden;position:relative;height:220px;background:#000;border:1px solid var(--borde)}
+.carrusel img{width:100%;height:220px;object-fit:cover;display:none}
+.carrusel img.activo{display:block;animation:fade 0.6s}
+@keyframes fade{from{opacity:.4}to{opacity:1}}
+.puntos{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
+.punto{width:10px;height:10px;background:rgba(255,255,255,.4);border-radius:50%;cursor:pointer}
+.punto.activo{background:var(--rosa)}
+
+.grid{max-width:900px;margin:10px auto 110px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;padding:0 16px}
+.card{background:var(--card);border:1px solid var(--borde);border-radius:16px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.5);transition:transform .2s}
+.card:hover{transform:translateY(-3px);border-color:var(--rosa)}
+.card img{width:100%;height:180px;object-fit:cover;cursor:zoom-in}
+.card-body{padding:12px}
+.card-body h3{font-size:1rem;margin-bottom:4px;color:white}
+.card-body .precio{color:var(--rosa);font-weight:700;font-size:1.1rem}
+.card-body p{font-size:.85rem;color:var(--texto2);margin:6px 0 10px;height:40px;overflow:hidden}
+.btn{background:var(--rosa);color:white;border:none;padding:9px 12px;border-radius:10px;cursor:pointer;width:100%;font-weight:600}
+.btn:hover{background:var(--rosa-osc)}
+.btn.whats{background:#25D366}
+.btn.sec{background:var(--borde);color:var(--texto)}
+
+.float-wa{position:fixed;bottom:20px;left:20px;background:#25D366;color:white;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,.6);z-index:60}
+.float-cart{position:fixed;bottom:20px;right:20px;background:var(--rosa);color:white;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.6);z-index:60}
+.cart-count{position:absolute;top:-4px;right:-4px;background:white;color:black;font-size:.75rem;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
+
+.drawer{position:fixed;top:0;right:-380px;width:350px;max-width:90vw;height:100%;background:var(--card);color:var(--texto);box-shadow:-5px 0 15px rgba(0,0,0,.6);transition:right .3s;z-index:100;display:flex;flex-direction:column;border-left:1px solid var(--borde)}
+.drawer.open{right:0}
+.drawer-header{padding:16px;background:#141416;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.drawer-body{flex:1;overflow-y:auto;padding:12px}
+.cart-item{display:flex;gap:10px;margin-bottom:12px;align-items:center;background:#141416;padding:8px;border-radius:10px}
+.cart-item img{width:50px;height:50px;border-radius:8px;object-fit:cover}
+.cart-item .info{flex:1}
+.qty{display:flex;gap:6px;align-items:center}
+.qty button{width:24px;height:24px;border-radius:6px;border:1px solid var(--borde);background:#2a2a2e;color:white;cursor:pointer}
+.drawer-footer{padding:14px;border-top:1px solid var(--borde);background:#141416}
+
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:200;padding:20px}
+.modal.open{display:flex}
+.modal-box{background:var(--card);color:var(--texto);border:1px solid var(--borde);border-radius:16px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;padding:16px}
+.modal-box img{width:100%;border-radius:12px;max-height:350px;object-fit:cover}
+
+.panel-btn{position:fixed;bottom:90px;right:20px;background:white;color:black;border:none;width:50px;height:50px;border-radius:50%;cursor:pointer;z-index:60;font-size:22px}
+.panel-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:300;padding:16px}
+.panel-modal.open{display:flex}
+.panel-box{background:var(--card);color:var(--texto);border:1px solid var(--borde);border-radius:16px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;padding:20px}
+.panel-box input,.panel-box textarea{width:100%;padding:10px;border:1px solid var(--borde);border-radius:10px;margin:6px 0;background:#141416;color:white}
+.panel-box label{font-weight:600;font-size:.9rem}
+.preview-box{border:2px dashed var(--borde);border-radius:12px;padding:10px;text-align:center;margin:10px 0}
+.preview-box img{max-width:100%;max-height:180px;border-radius:8px}
+.producto-admin{display:flex;gap:10px;align-items:center;background:#141416;padding:8px;border-radius:10px;margin:8px 0;border:1px solid var(--borde)}
+.producto-admin img{width:50px;height:50px;border-radius:8px;object-fit:cover}
+.small{font-size:.8rem;color:var(--texto2)}
+</style>
 </head>
 <body>
-  <h1>🎰 RascaYaPRO V9.1 🎰</h1>
-  <p>Cada raspada = $50</p>
 
-  <div class="saldo-box">Saldo: $<span id="saldo">0</span></div>
+<header>
+<h1>✨ Mi Catálogo ✨</h1>
+<p>Hecho con amor - Pedidos por WhatsApp</p>
+</header>
 
-  <div id="scratchCard">
-    <div id="prize">+$50</div>
-    <canvas id="canvas" width="300" height="200"></canvas>
-  </div>
+<div class="carrusel" id="carrusel"></div>
+<div class="grid" id="grid"></div>
 
-  <button id="scratchButton">RASCAR +$50</button>
-  <button id="withdrawBtn" onclick="retirar()">RETIRAR $500 POR WHATSAPP</button>
+<a class="float-wa" id="waFloat" href="#" target="_blank" title="WhatsApp">💬</a>
+<div class="float-cart" onclick="toggleCart(true)">🛒<span class="cart-count" id="cartCount">0</span></div>
+<button class="panel-btn" onclick="abrirPanel()" title="Panel">⚙️</button>
 
-  <small>Mínimo de retiro: $500</small>
+<div class="drawer" id="drawer">
+<div class="drawer-header">Tu Carrito <button onclick="toggleCart(false)" style="border:none;background:var(--borde);color:white;width:32px;height:32px;border-radius:50%;cursor:pointer">✕</button></div>
+<div class="drawer-body" id="cartBody"></div>
+<div class="drawer-footer">
+<div style="font-weight:700;margin-bottom:10px">Total: $<span id="cartTotal">0</span></div>
+<button class="btn whats" onclick="enviarWhatsApp()">Enviar pedido por WhatsApp</button>
+</div>
+</div>
 
-  <script>
-    // Lógica Saldo v9.1
-    let saldo = parseInt(localStorage.getItem('saldo') || '0');
-    const saldoSpan = document.getElementById('saldo');
-    const withdrawBtn = document.getElementById('withdrawBtn');
-    const WHATSAPP_NUMERO = '5492983389710'; // <-- TU WHATSAPP 2983 389710
+<div class="modal" id="modalProd">
+<div class="modal-box">
+<button onclick="cerrarModal()" style="float:right;border:none;background:var(--borde);color:white;width:32px;height:32px;border-radius:50%;cursor:pointer">✕</button>
+<img id="mImg" src="">
+<h2 id="mTitle" style="margin:10px 0 4px"></h2>
+<div class="precio" id="mPrice" style="color:var(--rosa);font-weight:700;font-size:1.3rem"></div>
+<p id="mDesc" style="margin:10px 0;color:var(--texto2)"></p>
+<button class="btn" onclick="agregarDesdeModal()">Agregar al carrito 🛒</button>
+</div>
+</div>
 
-    function actualizarSaldo() {
-      saldoSpan.textContent = saldo;
-      localStorage.setItem('saldo', saldo);
-      if (saldo >= 500) {
-        withdrawBtn.style.display = 'block';
-      }
-    }
-    actualizarSaldo();
+<div class="panel-modal" id="panelModal">
+<div class="panel-box">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<h2>Panel de Administración</h2>
+<button onclick="cerrarPanel()" style="border:none;background:var(--borde);color:white;width:32px;height:32px;border-radius:50%;cursor:pointer">✕</button>
+</div>
+<div id="loginBox">
+<p class="small">Ingresá la contraseña para administrar</p>
+<input type="password" id="passInput" placeholder="Contraseña (ej: admin123)">
+<button class="btn" onclick="login()">Entrar</button>
+<p class="small" style="margin-top:8px">Contraseña inicial: <b>admin123</b></p>
+</div>
 
-    // Lógica del raspado
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    let isDrawing = false;
-    let raspado = false;
+<div id="adminBox" style="display:none">
+<label>Número de WhatsApp (con código país, ej: 5491123456789)</label>
+<input id="waNumber" placeholder="549...">
+<button class="btn sec" onclick="guardarWA()">Guardar WhatsApp</button>
+<hr style="margin:16px 0;border-color:var(--borde)">
 
-    function resetCanvas() {
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.fillStyle = '#c0c0c0';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#888';
-      ctx.font = 'bold 24px Arial';
-      ctx.textAlign = 'center';
-      ctx.fillText('RASPA AQUÍ', 150, 100);
-      ctx.globalCompositeOperation = 'destination-out';
-      raspado = false;
-    }
-    resetCanvas();
+<h3>➕ Agregar / Editar Producto</h3>
+<input type="hidden" id="editId">
+<label>Nombre</label>
+<input id="pName" placeholder="Ej: Manicura semipermanente">
+<label>Precio</label>
+<input id="pPrice" type="number" placeholder="1500">
+<label>Descripción</label>
+<textarea id="pDesc" rows="3" placeholder="Descripción del producto..."></textarea>
+<label>Foto</label>
+<input type="file" id="pFoto" accept="image/*" onchange="previsualizarFoto(event)">
+<div class="preview-box">
+<p class="small">Vista previa</p>
+<img id="pPreview" src="" style="display:none">
+<p id="pPreviewText">Sin foto</p>
+</div>
+<button class="btn" onclick="guardarProducto()">Guardar Producto</button>
+<button class="btn sec" onclick="limpiarForm()" style="margin-top:8px">Limpiar</button>
 
-    function getPos(e) {
-      const rect = canvas.getBoundingClientRect();
-      const x = (e.touches? e.touches[0].clientX : e.clientX) - rect.left;
-      const y = (e.touches? e.touches[0].clientY : e.clientY) - rect.top;
-      return {x, y};
-    }
+<h3 style="margin-top:20px">📦 Productos actuales</h3>
+<div id="listaAdmin"></div>
 
-    function scratch(e) {
-      if (!isDrawing || raspado) return;
-      const pos = getPos(e);
-      ctx.beginPath();
-      ctx.arc(pos.x, pos.y, 20, 0, Math.PI * 2);
-      ctx.fill();
+<hr style="margin:16px 0;border-color:var(--borde)">
+<label>Nueva contraseña del panel</label>
+<input id="newPass" placeholder="Nueva contraseña">
+<button class="btn sec" onclick="cambiarPass()">Cambiar contraseña</button>
+</div>
+</div>
 
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      let transparent = 0;
-      for (let i = 3; i < imageData.data.length; i += 4) {
-        if (imageData.data[i] === 0) transparent++;
-      }
-      if (transparent > (canvas.width * canvas.height) / 2 &&!raspado) {
-        raspado = true;
-        saldo += 50;
-        actualizarSaldo();
-        setTimeout(resetCanvas, 800);
-      }
-    }
+<script>
+const PASS_KEY='catalogo_pass';
+const PROD_KEY='catalogo_products';
+const WA_KEY='catalogo_wa';
+let products=JSON.parse(localStorage.getItem(PROD_KEY))||[
+ {id:1,name:'Manicura Semipermanente',price:1500,desc:'Esculpido + semipermanente, incluye cutícula y brillo final.',foto:'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600'},
+ {id:2,name:'Capping Gel',price:1800,desc:'Protección natural con gel, ideal para uñas débiles.',foto:'https://images.unsplash.com/photo-1610992015732-2449b76344bc?w=600'},
+ {id:3,name:'Pedicuría Completa',price:1200,desc:'Pedicuría con esmaltado tradicional y masaje.',foto:'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=600'}
+];
+let cart=JSON.parse(localStorage.getItem('catalogo_cart'))||[];
+let fotoTemp='';
+let productoModal=null;
 
-    canvas.addEventListener('mousedown', () => isDrawing = true);
-    canvas.addEventListener('mouseup', () => isDrawing = false);
-    canvas.addEventListener('mousemove', scratch);
-    canvas.addEventListener('touchstart', () => isDrawing = true);
-    canvas.addEventListener('touchend', () => isDrawing = false);
-    canvas.addEventListener('touchmove', scratch);
+function save(){localStorage.setItem(PROD_KEY,JSON.stringify(products));localStorage.setItem('catalogo_cart',JSON.stringify(cart))}
+function getWA(){return localStorage.getItem(WA_KEY)||'5491123456789'}
+function getPass(){return localStorage.getItem(PASS_KEY)||'admin123'}
 
-    document.getElementById('scratchButton').addEventListener('click', () => {
-      if(!raspado) resetCanvas();
-    });
+function renderCarrusel(){
+ const c=document.getElementById('carrusel');
+ const imgs=products.map(p=>p.foto).filter(Boolean);
+ const lista=imgs.length?imgs:['https://images.unsplash.com/photo-1604654894610-df63bc536371?w=900','https://images.unsplash.com/photo-1610992015732-2449b76344bc?w=900'];
+ c.innerHTML=lista.map((src,i)=>`<img src="${src}" class="${i===0?'activo':''}" data-i="${i}">`).join('')+`<div class="puntos">${lista.map((_,i)=>`<div class="punto ${i===0?'activo':''}" onclick="irSlide(${i})"></div>`).join('')}</div>`;
+ window.slideIdx=0; window.slideList=lista;
+}
+let slideTimer=setInterval(autoSlide,3000);
+function autoSlide(){if(!window.slideList)return;irSlide((window.slideIdx+1)%window.slideList.length)}
+function irSlide(i){window.slideIdx=i;document.querySelectorAll('#carrusel img').forEach((img,idx)=>img.classList.toggle('activo',idx===i));document.querySelectorAll('.punto').forEach((p,idx)=>p.classList.toggle('activo',idx===i));clearInterval(slideTimer);slideTimer=setInterval(autoSlide,3000)}
 
-    // Función Retiro WhatsApp v9.1
-    function retirar() {
-      const mensaje = `Hola! Quiero retirar $500 de RascaYaPRO. Mi saldo actual es: $${saldo}`;
-      const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensaje)}`;
-      window.open(url, '_blank');
-    }
-  </script>
+function renderGrid(){
+ const g=document.getElementById('grid');
+ if(!products.length){g.innerHTML='<p style="grid-column:1/-1;text-align:center;color:#999">No hay productos todavía. Entrá al panel ⚙️ para agregar.</p>';return}
+ g.innerHTML=products.map(p=>`
+ <div class="card">
+   <img src="${p.foto||'https://via.placeholder.com/400'}" onclick="abrirModal(${p.id})">
+   <div class="card-body">
+     <h3>${p.name}</h3>
+     <div class="precio">$${p.price}</div>
+     <p>${p.desc||''}</p>
+     <button class="btn" onclick="agregarCarrito(${p.id})">Agregar 🛒</button>
+   </div>
+ </div>`).join('');
+ renderCarrusel();
+}
 
-  <!-- === ADS TERRA CÓDIGOS V9.1 === -->
-  <script type='text/javascript' src='https://pl30177520.effectivecpmnetwork.com/ae/77/e5/ae77e5f080a85cc8c64e8078e147b5f8.js'></script>
-  <script>
-    const btnRascar = document.getElementById('scratchButton');
-    const directLink = 'https://www.effectivecpmnetwork.com/fxczk31aq?key=7d8070488594088b20dd155bec2127e6';
-    btnRascar.addEventListener('click', function() {
-      window.open(directLink, '_blank');
-    }, { once: false });
-  </script>
-  <!-- === FIN ADS TERRA === -->
+function abrirModal(id){
+ productoModal=products.find(p=>p.id===id);
+ document.getElementById('mImg').src=productoModal.foto||'https://via.placeholder.com/400';
+ document.getElementById('mTitle').textContent=productoModal.name;
+ document.getElementById('mPrice').textContent='$'+productoModal.price;
+ document.getElementById('mDesc').textContent=productoModal.desc||'';
+ document.getElementById('modalProd').classList.add('open');
+}
+function cerrarModal(){document.getElementById('modalProd').classList.remove('open')}
+function agregarDesdeModal(){if(productoModal)agregarCarrito(productoModal.id);cerrarModal()}
 
+function agregarCarrito(id){
+ const item=cart.find(i=>i.id===id);
+ if(item)item.qty++; else cart.push({id,qty:1});
+ save();actualizarCart();
+}
+function actualizarCart(){
+ const count=cart.reduce((a,i)=>a+i.qty,0);
+ document.getElementById('cartCount').textContent=count;
+ let total=0;
+ let html='';
+ cart.forEach(i=>{
+   const p=products.find(pr=>pr.id===i.id);
+   if(!p)return;
+   total+=p.price*i.qty;
+   html+=`<div class="cart-item"><img src="${p.foto||'https://via.placeholder.com/100'}"><div class="info"><b>${p.name}</b><br>$${p.price} x ${i.qty}<div class="qty"><button onclick="cambiarQty(${p.id},-1)">-</button><span>${i.qty}</span><button onclick="cambiarQty(${p.id},1)">+</button></div></div><button onclick="quitarItem(${p.id})" style="border:none;background:#3a0a18;color:white;border-radius:8px;cursor:pointer;padding:6px">🗑</button></div>`;
+ });
+ if(!cart.length)html='<p style="text-align:center;color:#999;margin-top:20px">Carrito vacío</p>';
+ document.getElementById('cartBody').innerHTML=html;
+ document.getElementById('cartTotal').textContent=total;
+}
+function cambiarQty(id,d){const it=cart.find(i=>i.id===id);if(!it)return;it.qty+=d;if(it.qty<=0)cart=cart.filter(i=>i.id!==id);save();actualizarCart()}
+function quitarItem(id){cart=cart.filter(i=>i.id!==id);save();actualizarCart()}
+function toggleCart(open){document.getElementById('drawer').classList.toggle('open',open)}
+function enviarWhatsApp(){
+ if(!cart.length){alert('El carrito está vacío');return}
+ const wa=getWA();
+ let msg='Hola! Quiero hacer un pedido:%0A%0A';
+ let total=0;
+ cart.forEach(i=>{const p=products.find(pr=>pr.id===i.id);if(p){msg+=`• ${p.name} x${i.qty} - $${p.price*i.qty}%0A`;total+=p.price*i.qty}});
+ msg+=`%0ATotal: $${total}`;
+ window.open(`https://wa.me/${wa}?text=${msg}`,'_blank');
+}
+document.getElementById('waFloat').href=`https://wa.me/${getWA()}?text=Hola!%20Quiero%20hacer%20una%20consulta`;
+
+function abrirPanel(){document.getElementById('panelModal').classList.add('open');document.getElementById('waNumber').value=getWA();renderAdminList()}
+function cerrarPanel(){document.getElementById('panelModal').classList.remove('open')}
+function login(){
+ if(document.getElementById('passInput').value===getPass()){
+   document.getElementById('loginBox').style.display='none';
+   document.getElementById('adminBox').style.display='block';
+ }else alert('Contraseña incorrecta');
+}
+function previsualizarFoto(e){
+ const file=e.target.files[0];if(!file)return;
+ const reader=new FileReader();
+ reader.onload=function(ev){fotoTemp=ev.target.result;document.getElementById('pPreview').src=fotoTemp;document.getElementById('pPreview').style.display='block';document.getElementById('pPreviewText').style.display='none'};
+ reader.readAsDataURL(file);
+}
+function guardarProducto(){
+ const name=document.getElementById('pName').value.trim();
+ const price=parseFloat(document.getElementById('pPrice').value)||0;
+ const desc=document.getElementById('pDesc').value.trim();
+ const editId=document.getElementById('editId').value;
+ if(!name||!price){alert('Nombre y precio son obligatorios');return}
+ if(editId){
+   const p=products.find(x=>x.id==editId);p.name=name;p.price=price;p.desc=desc;if(fotoTemp)p.foto=fotoTemp;
+ }else{
+   products.push({id:Date.now(),name,price,desc,foto:fotoTemp});
+ }
+ save();renderGrid();renderAdminList();limpiarForm();actualizarCart();
+}
+function limpiarForm(){document.getElementById('pName').value='';document.getElementById('pPrice').value='';document.getElementById('pDesc').value='';document.getElementById('editId').value='';fotoTemp='';document.getElementById('pPreview').style.display='none';document.getElementById('pPreviewText').style.display='block'}
+function renderAdminList(){
+ const div=document.getElementById('listaAdmin');
+ div.innerHTML=products.map(p=>`<div class="producto-admin"><img src="${p.foto||'https://via.placeholder.com/100'}"><div style="flex:1"><b>${p.name}</b><br>$${p.price}</div><button class="btn sec" style="width:auto;padding:6px 10px" onclick="editarProd(${p.id})">Editar</button><button class="btn sec" style="width:auto;padding:6px 10px;background:#3a0a18" onclick="eliminarProd(${p.id})">Borrar</button></div>`).join('')||'<p class="small">Sin productos</p>';
+}
+function editarProd(id){const p=products.find(x=>x.id===id);document.getElementById('editId').value=p.id;document.getElementById('pName').value=p.name;document.getElementById('pPrice').value=p.price;document.getElementById('pDesc').value=p.desc;fotoTemp=p.foto;document.getElementById('pPreview').src=p.foto;document.getElementById('pPreview').style.display='block';document.getElementById('pPreviewText').style.display='none'}
+function eliminarProd(id){if(confirm('¿Borrar producto?')){products=products.filter(p=>p.id!==id);cart=cart.filter(c=>c.id!==id);save();renderGrid();renderAdminList();actualizarCart()}}
+function guardarWA(){localStorage.setItem(WA_KEY,document.getElementById('waNumber').value.trim());document.getElementById('waFloat').href=`https://wa.me/${getWA()}?text=Hola!%20Quiero%20hacer%20una%20consulta`;alert('WhatsApp guardado')}
+function cambiarPass(){const np=document.getElementById('newPass').value.trim();if(np.length<4){alert('Mínimo 4 caracteres');return}localStorage.setItem(PASS_KEY,np);alert('Contraseña actualizada')}
+
+renderGrid();actualizarCart();
+</script>
 </body>
 </html>

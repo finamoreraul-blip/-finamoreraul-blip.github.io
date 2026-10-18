@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Catálogo - Mi Emprendimiento</title>
+<title>Muebles - Catálogo</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
 :root{--rosa:#ff4d94;--rosa-osc:#d6246a;--fondo:#0f0f10;--card:#1c1c1e;--borde:#2a2a2e;--texto:#f5f5f5;--texto2:#a0a0a0}
@@ -11,7 +11,6 @@ body{background:var(--fondo);color:var(--texto)}
 header{background:linear-gradient(135deg,#1a1a1d,#2b0a18);border-bottom:2px solid var(--rosa);color:white;padding:18px 20px;text-align:center;position:sticky;top:0;z-index:50}
 header h1{font-size:1.5rem;color:var(--rosa)}
 header p{opacity:.8;font-size:.9rem}
-
 .carrusel{max-width:900px;margin:20px auto;border-radius:18px;overflow:hidden;position:relative;height:220px;background:#000;border:1px solid var(--borde)}
 .carrusel img{width:100%;height:220px;object-fit:cover;display:none}
 .carrusel img.activo{display:block;animation:fade 0.6s}
@@ -19,7 +18,6 @@ header p{opacity:.8;font-size:.9rem}
 .puntos{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px}
 .punto{width:10px;height:10px;background:rgba(255,255,255,.4);border-radius:50%;cursor:pointer}
 .punto.activo{background:var(--rosa)}
-
 .grid{max-width:900px;margin:10px auto 110px;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;padding:0 16px}
 .card{background:var(--card);border:1px solid var(--borde);border-radius:16px;overflow:hidden;box-shadow:0 4px 15px rgba(0,0,0,.5);transition:transform .2s}
 .card:hover{transform:translateY(-3px);border-color:var(--rosa)}
@@ -32,11 +30,9 @@ header p{opacity:.8;font-size:.9rem}
 .btn:hover{background:var(--rosa-osc)}
 .btn.whats{background:#25D366}
 .btn.sec{background:var(--borde);color:var(--texto)}
-
 .float-wa{position:fixed;bottom:20px;left:20px;background:#25D366;color:white;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;text-decoration:none;box-shadow:0 4px 12px rgba(0,0,0,.6);z-index:60}
 .float-cart{position:fixed;bottom:20px;right:20px;background:var(--rosa);color:white;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.6);z-index:60}
 .cart-count{position:absolute;top:-4px;right:-4px;background:white;color:black;font-size:.75rem;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
-
 .drawer{position:fixed;top:0;right:-380px;width:350px;max-width:90vw;height:100%;background:var(--card);color:var(--texto);box-shadow:-5px 0 15px rgba(0,0,0,.6);transition:right .3s;z-index:100;display:flex;flex-direction:column;border-left:1px solid var(--borde)}
 .drawer.open{right:0}
 .drawer-header{padding:16px;background:#141416;display:flex;justify-content:space-between;align-items:center;font-weight:700}
@@ -47,12 +43,10 @@ header p{opacity:.8;font-size:.9rem}
 .qty{display:flex;gap:6px;align-items:center}
 .qty button{width:24px;height:24px;border-radius:6px;border:1px solid var(--borde);background:#2a2a2e;color:white;cursor:pointer}
 .drawer-footer{padding:14px;border-top:1px solid var(--borde);background:#141416}
-
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:200;padding:20px}
 .modal.open{display:flex}
 .modal-box{background:var(--card);color:var(--texto);border:1px solid var(--borde);border-radius:16px;max-width:500px;width:100%;max-height:90vh;overflow-y:auto;padding:16px}
 .modal-box img{width:100%;border-radius:12px;max-height:350px;object-fit:cover}
-
 .panel-btn{position:fixed;bottom:90px;right:20px;background:white;color:black;border:none;width:50px;height:50px;border-radius:50%;cursor:pointer;z-index:60;font-size:22px}
 .panel-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:300;padding:16px}
 .panel-modal.open{display:flex}
@@ -69,8 +63,8 @@ header p{opacity:.8;font-size:.9rem}
 <body>
 
 <header>
-<h1>✨ Mi Catálogo ✨</h1>
-<p>Hecho con amor - Pedidos por WhatsApp</p>
+<h1>🛋️ Muebles & Deco</h1>
+<p>Precios en dólares americanos (USD) - Pedidos por WhatsApp</p>
 </header>
 
 <div class="carrusel" id="carrusel"></div>
@@ -84,7 +78,7 @@ header p{opacity:.8;font-size:.9rem}
 <div class="drawer-header">Tu Carrito <button onclick="toggleCart(false)" style="border:none;background:var(--borde);color:white;width:32px;height:32px;border-radius:50%;cursor:pointer">✕</button></div>
 <div class="drawer-body" id="cartBody"></div>
 <div class="drawer-footer">
-<div style="font-weight:700;margin-bottom:10px">Total: $<span id="cartTotal">0</span></div>
+<div style="font-weight:700;margin-bottom:10px">Total: US$<span id="cartTotal">0</span></div>
 <button class="btn whats" onclick="enviarWhatsApp()">Enviar pedido por WhatsApp</button>
 </div>
 </div>
@@ -108,7 +102,7 @@ header p{opacity:.8;font-size:.9rem}
 </div>
 <div id="loginBox">
 <p class="small">Ingresá la contraseña para administrar</p>
-<input type="password" id="passInput" placeholder="Contraseña (ej: admin123)">
+<input type="password" id="passInput" placeholder="Contraseña">
 <button class="btn" onclick="login()">Entrar</button>
 <p class="small" style="margin-top:8px">Contraseña inicial: <b>admin123</b></p>
 </div>
@@ -119,14 +113,14 @@ header p{opacity:.8;font-size:.9rem}
 <button class="btn sec" onclick="guardarWA()">Guardar WhatsApp</button>
 <hr style="margin:16px 0;border-color:var(--borde)">
 
-<h3>➕ Agregar / Editar Producto</h3>
+<h3>➕ Agregar / Editar Producto (Precio en USD)</h3>
 <input type="hidden" id="editId">
 <label>Nombre</label>
-<input id="pName" placeholder="Ej: Manicura semipermanente">
-<label>Precio</label>
-<input id="pPrice" type="number" placeholder="1500">
+<input id="pName" placeholder="Ej: Sillón reclinable 3 cuerpos">
+<label>Precio en USD</label>
+<input id="pPrice" type="number" placeholder="250">
 <label>Descripción</label>
-<textarea id="pDesc" rows="3" placeholder="Descripción del producto..."></textarea>
+<textarea id="pDesc" rows="3" placeholder="Descripción del mueble..."></textarea>
 <label>Foto</label>
 <input type="file" id="pFoto" accept="image/*" onchange="previsualizarFoto(event)">
 <div class="preview-box">
@@ -152,9 +146,9 @@ const PASS_KEY='catalogo_pass';
 const PROD_KEY='catalogo_products';
 const WA_KEY='catalogo_wa';
 let products=JSON.parse(localStorage.getItem(PROD_KEY))||[
- {id:1,name:'Manicura Semipermanente',price:1500,desc:'Esculpido + semipermanente, incluye cutícula y brillo final.',foto:'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=600'},
- {id:2,name:'Capping Gel',price:1800,desc:'Protección natural con gel, ideal para uñas débiles.',foto:'https://images.unsplash.com/photo-1610992015732-2449b76344bc?w=600'},
- {id:3,name:'Pedicuría Completa',price:1200,desc:'Pedicuría con esmaltado tradicional y masaje.',foto:'https://images.unsplash.com/photo-1519014816548-bf5fe059798b?w=600'}
+ {id:1,name:'Sillón Reclinable 3 Cuerpos',price:350,desc:'Tapizado en chenille gris, reclinable manual. Ideal para living.',foto:'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=600'},
+ {id:2,name:'Comedor Mesa + 4 Sillas',price:280,desc:'Mesa de madera maciza con 4 sillas tapizadas en ecocuero.',foto:'https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=600'},
+ {id:3,name:'Sillón Individual Tapizado',price:120,desc:'Sillón 1 cuerpo, estructura de madera dura y tela lavable.',foto:'https://images.unsplash.com/photo-1567016432779-094069958ea5?w=600'}
 ];
 let cart=JSON.parse(localStorage.getItem('catalogo_cart'))||[];
 let fotoTemp='';
@@ -167,7 +161,7 @@ function getPass(){return localStorage.getItem(PASS_KEY)||'admin123'}
 function renderCarrusel(){
  const c=document.getElementById('carrusel');
  const imgs=products.map(p=>p.foto).filter(Boolean);
- const lista=imgs.length?imgs:['https://images.unsplash.com/photo-1604654894610-df63bc536371?w=900','https://images.unsplash.com/photo-1610992015732-2449b76344bc?w=900'];
+ const lista=imgs.length?imgs:['https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=900','https://images.unsplash.com/photo-1595428774223-ef52624120d2?w=900'];
  c.innerHTML=lista.map((src,i)=>`<img src="${src}" class="${i===0?'activo':''}" data-i="${i}">`).join('')+`<div class="puntos">${lista.map((_,i)=>`<div class="punto ${i===0?'activo':''}" onclick="irSlide(${i})"></div>`).join('')}</div>`;
  window.slideIdx=0; window.slideList=lista;
 }
@@ -183,7 +177,7 @@ function renderGrid(){
    <img src="${p.foto||'https://via.placeholder.com/400'}" onclick="abrirModal(${p.id})">
    <div class="card-body">
      <h3>${p.name}</h3>
-     <div class="precio">$${p.price}</div>
+     <div class="precio">US$${p.price}</div>
      <p>${p.desc||''}</p>
      <button class="btn" onclick="agregarCarrito(${p.id})">Agregar 🛒</button>
    </div>
@@ -195,7 +189,7 @@ function abrirModal(id){
  productoModal=products.find(p=>p.id===id);
  document.getElementById('mImg').src=productoModal.foto||'https://via.placeholder.com/400';
  document.getElementById('mTitle').textContent=productoModal.name;
- document.getElementById('mPrice').textContent='$'+productoModal.price;
+ document.getElementById('mPrice').textContent='US$'+productoModal.price;
  document.getElementById('mDesc').textContent=productoModal.desc||'';
  document.getElementById('modalProd').classList.add('open');
 }
@@ -216,7 +210,7 @@ function actualizarCart(){
    const p=products.find(pr=>pr.id===i.id);
    if(!p)return;
    total+=p.price*i.qty;
-   html+=`<div class="cart-item"><img src="${p.foto||'https://via.placeholder.com/100'}"><div class="info"><b>${p.name}</b><br>$${p.price} x ${i.qty}<div class="qty"><button onclick="cambiarQty(${p.id},-1)">-</button><span>${i.qty}</span><button onclick="cambiarQty(${p.id},1)">+</button></div></div><button onclick="quitarItem(${p.id})" style="border:none;background:#3a0a18;color:white;border-radius:8px;cursor:pointer;padding:6px">🗑</button></div>`;
+   html+=`<div class="cart-item"><img src="${p.foto||'https://via.placeholder.com/100'}"><div class="info"><b>${p.name}</b><br>US$${p.price} x ${i.qty}<div class="qty"><button onclick="cambiarQty(${p.id},-1)">-</button><span>${i.qty}</span><button onclick="cambiarQty(${p.id},1)">+</button></div></div><button onclick="quitarItem(${p.id})" style="border:none;background:#3a0a18;color:white;border-radius:8px;cursor:pointer;padding:6px">🗑</button></div>`;
  });
  if(!cart.length)html='<p style="text-align:center;color:#999;margin-top:20px">Carrito vacío</p>';
  document.getElementById('cartBody').innerHTML=html;
@@ -230,8 +224,8 @@ function enviarWhatsApp(){
  const wa=getWA();
  let msg='Hola! Quiero hacer un pedido:%0A%0A';
  let total=0;
- cart.forEach(i=>{const p=products.find(pr=>pr.id===i.id);if(p){msg+=`• ${p.name} x${i.qty} - $${p.price*i.qty}%0A`;total+=p.price*i.qty}});
- msg+=`%0ATotal: $${total}`;
+ cart.forEach(i=>{const p=products.find(pr=>pr.id===i.id);if(p){msg+=`• ${p.name} x${i.qty} - US$${p.price*i.qty}%0A`;total+=p.price*i.qty}});
+ msg+=`%0ATotal: US$${total}`;
  window.open(`https://wa.me/${wa}?text=${msg}`,'_blank');
 }
 document.getElementById('waFloat').href=`https://wa.me/${getWA()}?text=Hola!%20Quiero%20hacer%20una%20consulta`;
@@ -266,7 +260,7 @@ function guardarProducto(){
 function limpiarForm(){document.getElementById('pName').value='';document.getElementById('pPrice').value='';document.getElementById('pDesc').value='';document.getElementById('editId').value='';fotoTemp='';document.getElementById('pPreview').style.display='none';document.getElementById('pPreviewText').style.display='block'}
 function renderAdminList(){
  const div=document.getElementById('listaAdmin');
- div.innerHTML=products.map(p=>`<div class="producto-admin"><img src="${p.foto||'https://via.placeholder.com/100'}"><div style="flex:1"><b>${p.name}</b><br>$${p.price}</div><button class="btn sec" style="width:auto;padding:6px 10px" onclick="editarProd(${p.id})">Editar</button><button class="btn sec" style="width:auto;padding:6px 10px;background:#3a0a18" onclick="eliminarProd(${p.id})">Borrar</button></div>`).join('')||'<p class="small">Sin productos</p>';
+ div.innerHTML=products.map(p=>`<div class="producto-admin"><img src="${p.foto||'https://via.placeholder.com/100'}"><div style="flex:1"><b>${p.name}</b><br>US$${p.price}</div><button class="btn sec" style="width:auto;padding:6px 10px" onclick="editarProd(${p.id})">Editar</button><button class="btn sec" style="width:auto;padding:6px 10px;background:#3a0a18" onclick="eliminarProd(${p.id})">Borrar</button></div>`).join('')||'<p class="small">Sin productos</p>';
 }
 function editarProd(id){const p=products.find(x=>x.id===id);document.getElementById('editId').value=p.id;document.getElementById('pName').value=p.name;document.getElementById('pPrice').value=p.price;document.getElementById('pDesc').value=p.desc;fotoTemp=p.foto;document.getElementById('pPreview').src=p.foto;document.getElementById('pPreview').style.display='block';document.getElementById('pPreviewText').style.display='none'}
 function eliminarProd(id){if(confirm('¿Borrar producto?')){products=products.filter(p=>p.id!==id);cart=cart.filter(c=>c.id!==id);save();renderGrid();renderAdminList();actualizarCart()}}
